@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_note_sepeti/models/kategori.dart';
+import 'package:flutter_note_sepeti/models/notlar.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
@@ -63,10 +65,57 @@ class DatabaseHelper {
     return _db;
   }
 
-katergorileriGetir() async {
-  var db = await _getDatabase();
-  var sonuc= await db.query('kategori');
-  print(sonuc);
-}
+  Future<List<Map<String, dynamic>>> katergorileriGetir() async {
+    var db = await _getDatabase();
+    var sonuc = await db.query('kategori');
+    //print(sonuc);
 
-}//
+    return sonuc;
+  }
+
+  Future<int> kategoriEkle(Kategori kategori) async {
+    var db = await _getDatabase();
+    var sonuc = await db.insert('kategori', kategori.toMap());
+    return sonuc;
+  }
+
+  Future<int> kategoriGuncelle(Kategori kategori) async {
+    var db = await _getDatabase();
+    var sonuc = await db.update('kategori', kategori.toMap(),
+        where: 'kategoriID= ?', whereArgs: [kategori.kategoriID]);
+    return sonuc;
+  }
+
+  Future<int> kategoriSil(int kategoriId) async {
+    var db = await _getDatabase();
+    var sonuc = await db
+        .delete('kategori', where: 'kategoriID= ?', whereArgs: [kategoriId]);
+    return sonuc;
+  }
+
+/////////////////////////
+  Future<List<Map<String, dynamic>>> notlariGetir() async {
+    var db = await _getDatabase();
+    var sonuc = await db.query('not', orderBy: 'notID Desc');
+    return sonuc;
+  }
+
+  Future<int> notEkle(Note not) async {
+    var db = await _getDatabase();
+    var sonuc = await db.insert('not', not.toMap());
+    return sonuc;
+  }
+
+  Future<int> notGuncelle(Note not) async {
+    var db = await _getDatabase();
+    var sonuc = await db
+        .update('not', not.toMap(), where: 'notID= ?', whereArgs: [not.notID]);
+    return sonuc;
+  }
+
+  Future<int> notSil(int notId) async {
+    var db = await _getDatabase();
+    var sonuc = await db.delete('not', where: 'notID= ?', whereArgs: [notId]);
+    return sonuc;
+  }
+} //
