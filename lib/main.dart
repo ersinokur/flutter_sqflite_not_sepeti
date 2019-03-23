@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note_sepeti/models/pages/notListesi.dart';
+import 'package:flutter_note_sepeti/pages/notListesi.dart';
 import 'package:flutter_note_sepeti/utils/databaseHelper.dart';
 
 void main() => runApp(MyApp());
@@ -12,10 +12,11 @@ class MyApp extends StatelessWidget {
     //  var kategoriler = dbHelper.katergorileriGetir().then((data);
 
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Not Gir',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: NotListesi());
+        home: NotListesi()
+        );
   }
 }
